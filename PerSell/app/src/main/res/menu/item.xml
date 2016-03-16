@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+    android:id="@+id/action_refresh"
+    android:orderInCategory="100"
+    android:title="@string/action_refresh"
+    android:icon="@drawable/refresh_icon"
+    app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="100"
+        android:title="@string/action_add"
+        android:icon="@drawable/add_icon"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_available"
+        android:orderInCategory="100"
+        android:title="@string/action_available"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_booked"
+        android:orderInCategory="100"
+        android:title="@string/action_booked"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sold"
+        android:orderInCategory="100"
+        android:title="@string/action_sold"
+        app:showAsAction="never" />
+
+</menu>

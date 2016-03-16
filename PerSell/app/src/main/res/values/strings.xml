@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">PerSell</string>
+    <string name="facebook_app_id">1034650089933601</string>
+
+    UpdateUserProfileActivity
+    <string name="EmailnPhone"><![CDATA[Email & Phone]]></string>
+    <string name="BankAcc">Bank Account</string>
+    <string name="Adress">Address</string>
+    <string name="EmailAddress">Email Address</string>
+    <string name="Contact">Personal Contact</string>
+    <string name="PhoneNumber">Phone Number</string>
+    <string name="Done">Done</string>
+
+
+    <string name="ShippingAddress">Shipping Address</string>
+    <string name="Poskod">Poskod</string>
+    <string name="City">City</string>
+    <string name="Region">No Region Selected</string>
+
+
+    <string name="BankType">Which Bank to be used???</string>
+    <string name="CIMB">CIMB Bank</string>
+    <string name="PublicBank">Public Bank</string>
+    <string name="Maybank">Maybank</string>
+    <string name="HongLeong">Hong Leong Bank</string>
+    <string name="Bank">Bank Account</string>
+    <string name="insertbankacc">Insert Your Bank Account...</string>
+    <string name="name">Insert Your Name...</string>
+
+
+    <string name="EditProfile">Edit Profile</string>
+
+
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_refresh">Refresh</string>
+
+
+    <string name="action_add">Add</string>
+    <string name="action_available">Available</string>
+    <string name="action_booked">Booked</string>
+    <string name="action_sold">Sold</string>
+    <string name="Category">No Category Selected</string>
+    <string name="AdDetail">Ad Details</string>
+    <string name="TakePicture">Take Picture</string>
+    <string name="GetFromGallery">Get From Gallery</string>
+    <string name="itemPrice">Item\'s Price??(RM)</string>
+    <string name="AddPhoto">Add Photo</string>
+    <string name="editItem">Edit Item</string>
+    <string name="EditItem">Edit Item</string>
+    <string name="AdTitle">Ad Title</string>
+
+</resources>

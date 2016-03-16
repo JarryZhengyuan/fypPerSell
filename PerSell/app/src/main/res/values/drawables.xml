@@ -1,0 +1,9 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item name="ic_menu_profile" type="drawable">@drawable/profile_icon</item>
+    <item name="ic_menu_search" type="drawable">@drawable/search_icon</item>
+    <item name="ic_menu_message" type="drawable">@drawable/message_icon</item>
+    <item name="ic_menu_logout" type="drawable">@drawable/logout_icon</item>
+    <item name="ic_menu_item" type="drawable">@drawable/item_icon</item>
+    <item name="ic_menu_sale" type="drawable">@drawable/sale_icon</item>
+    <item name="ic_menu_bought" type="drawable">@drawable/bought</item>
+</resources>

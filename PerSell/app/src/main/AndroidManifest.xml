@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.jarry.persell">
+
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".Util.SinchService" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1034650089933601"
+            android:exported="true" />
+
+        <activity android:name=".FaceLoginActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".UpdateUserProfileActivity" />
+        <activity android:name=".UpdateUserAddressActivity" />
+        <activity android:name=".UpdateUserBankActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".itemInsertActivity" />
+        <activity android:name=".itemListActivity" />
+        <activity android:name=".ItemActivity" />
+        <activity android:name=".ItemOwnerActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".CommentActivity" />
+        <activity android:name=".MessagingActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".LoginSinchActivity" />
+        <activity android:name=".ConversationListActivity" />
+        <activity android:name=".PurchaseActivity" />
+        <activity android:name=".PurchaseListActivity" />
+        <activity android:name=".SoldItemActivity"></activity>
+    </application>
+
+</manifest>
