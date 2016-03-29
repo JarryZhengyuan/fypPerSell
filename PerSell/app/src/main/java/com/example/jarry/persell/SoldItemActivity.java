@@ -112,24 +112,25 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void done(Invoice invoice) {
                 if(invoice!=null){
-                String address="Purchased on "+dateToString.string2Date(invoice.getDate())+"\n\n"+
+                String address="\nPurchased on "+dateToString.string2Date(invoice.getDate())+"\n\n"+"Shipping Address\n"+
                         invoice.getAdd().getAddress()+"\n"+
                         invoice.getAdd().getPoskod()+"   "+
                         invoice.getAdd().getCity()+"\n"+
                         state_type.get(invoice.getAdd().getStateID()).toString()+"\n";
 
-                tvShipping.setText(address);}
+                tvShipping.setText(address);
+
+                    Bitmap bitmap=null;
+                    purchaseRequest.downloadPictureData(bitmap, invoice.getPicname(), new GetPictureCallBack() {
+                        @Override
+                        public void done(Bitmap bitmap) {
+                             imgReceipt.setImageBitmap(bitmap);
+                        }
+                    });
+                }
                 else{
                     messsageToast("null");
                 }
-
-                Bitmap bitmap=null;
-                purchaseRequest.downloadPictureData(bitmap, invoice.getPicname(), new GetPictureCallBack() {
-                    @Override
-                    public void done(Bitmap bitmap) {
-                        imgReceipt.setImageBitmap(bitmap);
-                    }
-                });
             }
         });
     }

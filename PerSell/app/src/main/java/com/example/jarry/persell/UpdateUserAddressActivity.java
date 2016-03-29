@@ -85,10 +85,11 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
         userRequest.fetchAddressDataInBackground(address, new GetAddressCallBack() {
             @Override
             public void done(Address address) {
+                if(address.getStateID()!=-1){
                 etAddress.setText(address.getAddress());
                 etPoskod.setText(address.getPoskod());
                 etCity.setText(address.getCity());
-                btnSelectState.setText(type.get(address.getStateID()).toString());
+                btnSelectState.setText(type.get(address.getStateID()).toString());}
             }
         });
     }

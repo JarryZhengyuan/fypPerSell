@@ -42,8 +42,6 @@ public class PurchaseListActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Your Purchases");
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {

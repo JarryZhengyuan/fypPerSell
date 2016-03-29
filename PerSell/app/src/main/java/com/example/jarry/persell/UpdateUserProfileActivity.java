@@ -70,8 +70,9 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
         userRequest.fetchUserDataInBackground(user, new GetUserCallBack() {
             @Override
             public void done(User returnedUser) {
+                if(returnedUser!=null){
                 etEmail.setText(returnedUser.getEmail());
-                etPhone.setText(returnedUser.getPhone());
+                etPhone.setText(returnedUser.getPhone());}
             }
         });
     }

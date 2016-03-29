@@ -80,8 +80,6 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionTitle);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         callbackManager=CallbackManager.Factory.create();
         accessToken = AccessToken.getCurrentAccessToken();
@@ -393,15 +391,5 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
 
     public void messsageToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id==android.R.id.home){
-            startActivity(new Intent(itemInsertActivity.this, itemListActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

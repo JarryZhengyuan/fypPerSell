@@ -56,13 +56,15 @@
         <activity android:name=".ItemOwnerActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".CommentActivity" />
-        <activity android:name=".MessagingActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".MessagingActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".LoginSinchActivity" />
         <activity android:name=".ConversationListActivity" />
         <activity android:name=".PurchaseActivity" />
         <activity android:name=".PurchaseListActivity" />
-        <activity android:name=".SoldItemActivity"></activity>
+        <activity android:name=".SoldItemActivity" />
+        <activity android:name=".BookedItemActivity"></activity>
     </application>
 
 </manifest>

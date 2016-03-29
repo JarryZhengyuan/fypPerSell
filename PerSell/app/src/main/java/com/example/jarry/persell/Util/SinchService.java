@@ -16,8 +16,8 @@ import com.sinch.android.rtc.messaging.WritableMessage;
 
 public class SinchService extends Service {
 
-    private static final String APP_KEY = "c0769b3a-20f8-4ad7-8aa9-669bef8488cb";
-    private static final String APP_SECRET = "ObF9bCZ+RUqyqI/vyqrCEw==";
+    private static final String APP_KEY = "ca1f75e8-b80e-4a1d-ab8d-3739e8470401";
+    private static final String APP_SECRET = "+t5JoLxG0kmC6EpjkCxAyw==";
     private static final String ENVIRONMENT = "sandbox.sinch.com";
 
     private static final String TAG = SinchService.class.getSimpleName();

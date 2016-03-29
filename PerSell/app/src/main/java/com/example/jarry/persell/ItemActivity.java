@@ -197,7 +197,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void done(Invoice invoice) {
                 if(invoice!=null){
-                    String address="Purchased on "+dateToString.string2Date(invoice.getDate())+"\n\n"+
+                    String address="\nPurchased on "+dateToString.string2Date(invoice.getDate())+"\n\n"+"Shipping Address"+
                             invoice.getAdd().getAddress()+"\n"+
                             invoice.getAdd().getPoskod()+"   "+
                             invoice.getAdd().getCity()+"\n"+
@@ -216,18 +216,18 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                                     "\n" + "(H/P) : " + returnedUser.getPhone());
                         }
                     });
+
+                    Bitmap bitmap=null;
+                    purchaseRequest.downloadPictureData(bitmap, invoice.getPicname(), new GetPictureCallBack() {
+                        @Override
+                        public void done(Bitmap bitmap) {
+                            imgReceipt.setImageBitmap(bitmap);
+                        }
+                    });
                 }
                 else{
                     messsageToast("null");
                 }
-
-                Bitmap bitmap=null;
-                purchaseRequest.downloadPictureData(bitmap, invoice.getPicname(), new GetPictureCallBack() {
-                    @Override
-                    public void done(Bitmap bitmap) {
-                        imgReceipt.setImageBitmap(bitmap);
-                    }
-                });
             }
         });
     }

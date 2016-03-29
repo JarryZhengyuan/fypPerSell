@@ -69,8 +69,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         callbackManager=CallbackManager.Factory.create();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Search Items");
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
@@ -79,6 +77,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
         userid=accessToken.getUserId();
 
+        categoryID=getIntent().getExtras().getInt("category_id");
+
         categoryBtn=(Button)findViewById(R.id.categoryBtn);
         locBtn=(Button)findViewById(R.id.locBtn);
         searchView=(SearchView)findViewById(R.id.searchView);
@@ -86,6 +86,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         categoryBtn.setOnClickListener(this);
         locBtn.setOnClickListener(this);
+
+        if(categoryID!=-1){
+            categoryBtn.setText("Category     \n"+category_type.get(categoryID).toString()+"     ");
+        }
 
         item=new Item();
         refreshList();

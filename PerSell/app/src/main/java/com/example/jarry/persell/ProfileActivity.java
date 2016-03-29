@@ -61,8 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Profile");
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         callbackManager=CallbackManager.Factory.create();
         tvName=(TextView)findViewById(R.id.tvName);

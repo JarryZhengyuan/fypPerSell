@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.example.jarry.persell.CallBack.GetUserCallBack;
 import com.example.jarry.persell.Entity.Address;
 import com.example.jarry.persell.Entity.Item;
 import com.example.jarry.persell.Entity.User;
+import com.example.jarry.persell.Enum.Category;
 import com.example.jarry.persell.Util.ItemRequest;
 import com.example.jarry.persell.Util.SinchService;
 import com.example.jarry.persell.Util.UserRequest;
@@ -46,7 +48,7 @@ import java.util.ArrayList;
 import static com.daimajia.androidanimations.library.Techniques.*;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
@@ -54,11 +56,12 @@ public class HomeActivity extends AppCompatActivity
     User user;
     Address address;
     private String userid;
-    private ListView list;
     ItemAdapter adapter;
     Item item;
     String userName;
     int i=0;
+    ImageView sellBtn,findItem;
+    ImageView electronicBtn,sportBtn;
 
 
     @Override
@@ -95,42 +98,16 @@ public class HomeActivity extends AppCompatActivity
         address.setStateID(-1);
 
         loginUser();
-        refreshList();
 
-    }
+        sellBtn=(ImageView)findViewById(R.id.sellBtn);
+        findItem=(ImageView)findViewById(R.id.findItem);
+        electronicBtn=(ImageView)findViewById(R.id.electronicBtn);
+        sportBtn=(ImageView)findViewById(R.id.sportBtn);
 
-    private void refreshList() {
-        item=new Item();
-        item.setStatusID(1);
-
-        ItemRequest itemRequest=new ItemRequest(this);
-        itemRequest.fetchAvailableItemsDataInBackground(item, new GetAllItemCallBack() {
-            @Override
-            public void done(ArrayList<Item> items) {
-                if (items.size() < 1) {
-                    messsageToast("null");
-                } else {
-                    getItemData(items);
-                }
-            }
-        });
-    }
-
-    private void getItemData(ArrayList<Item> items) {
-        list=(ListView)findViewById(R.id.itemHomeList);
-        adapter= new ItemAdapter(getApplicationContext(), R.layout.item_list,items);
-        list.setAdapter(adapter);
-
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                item=adapter.getItem(position);
-                Intent intent = new Intent(HomeActivity.this, ItemOwnerActivity.class);
-                intent.putExtra("item_id", item.getItemID());
-                startActivity(intent);
-            }
-        });
+        sellBtn.setOnClickListener(this);
+        findItem.setOnClickListener(this);
+        electronicBtn.setOnClickListener(this);
+        sportBtn.setOnClickListener(this);
     }
 
     private void loginUser() {
@@ -198,23 +175,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_refresh) {
-            refreshList();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -222,23 +182,21 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-            finish();
+
         } else if (id == R.id.nav_search) {
-            startActivity(new Intent(HomeActivity.this, SearchActivity.class));
-            finish();
+            Intent intentSearch=new Intent(HomeActivity.this, SearchActivity.class);
+            intentSearch.putExtra("category_id", -1);
+            startActivity(intentSearch);
         } else if (id == R.id.nav_message) {
             startActivity(new Intent(HomeActivity.this, ConversationListActivity.class));
-            finish();
         } else if (id == R.id.nav_logout) {
             LoginManager.getInstance().logOut();
             startActivity(new Intent(HomeActivity.this, FaceLoginActivity.class));
             finish();
         } else if (id == R.id.nav_item) {
             startActivity(new Intent(HomeActivity.this, itemListActivity.class));
-            finish();
         } else if (id == R.id.nav_bought) {
             startActivity(new Intent(HomeActivity.this, PurchaseListActivity.class));
-            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -255,6 +213,32 @@ public class HomeActivity extends AppCompatActivity
         callbackManager.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 0) {
             this.finish();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.sellBtn:
+                Intent intent=new Intent(HomeActivity.this, itemInsertActivity.class);
+                intent.putExtra("item_process", "add_item");
+                startActivity(intent);
+                break;
+            case R.id.findItem:
+                Intent intentSearch=new Intent(HomeActivity.this, SearchActivity.class);
+                intentSearch.putExtra("category_id", -1);
+                startActivity(intentSearch);
+                break;
+            case R.id.electronicBtn:
+                Intent intentElec=new Intent(HomeActivity.this, SearchActivity.class);
+                intentElec.putExtra("category_id", Category.ELECTRONIC.getIntValue());
+                startActivity(intentElec);
+                break;
+            case R.id.sportBtn:
+                Intent intentSport=new Intent(HomeActivity.this, SearchActivity.class);
+                intentSport.putExtra("category_id", Category.SPORTs.getIntValue());
+                startActivity(intentSport);
+                break;
         }
     }
 }

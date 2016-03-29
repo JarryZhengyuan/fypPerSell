@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.jarry.persell.ItemActivity">
+    tools:context="com.example.jarry.persell.BookedItemActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -71,7 +71,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/horizontalScrollView2"
                     android:layout_marginTop="10dp"
-                    android:id="@+id/tableLay">
+                    android:id="@+id/tableLay"
+                    android:layout_marginBottom="5dp">
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -149,18 +150,19 @@
                     </TableRow>
                 </TableLayout>
 
+                <View
+                    android:layout_height="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/tableLay"
+                    android:background="@android:color/darker_gray"
+                    android:id="@+id/line" />
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
-                    android:layout_below="@+id/tableLay"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/linerAD">
-
-                    <View
-                        android:layout_height="2dp"
-                        android:layout_width="match_parent"
-                        android:background="@android:color/darker_gray"/>
+                    android:layout_below="@+id/line"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -169,33 +171,20 @@
                         android:id="@+id/tvAd"
                         android:textColor="#080707"
                         android:layout_margin="5dp"
-                        android:layout_marginTop="30dp" />
+                        android:text="......." />
 
                     <View
                         android:layout_height="2dp"
                         android:layout_width="match_parent"
-                        android:background="@android:color/darker_gray" />
-
-                    <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/EditItem"
-                        android:id="@+id/editBtn" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/linerAD"
-                    android:id="@+id/linerBuyer">
+                        android:background="@android:color/darker_gray"
+                        android:id="@+id/lineOwner" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Buyer&apos;s Contact"
-                        android:id="@+id/textView2"
+                        android:text="Owner&apos;s Contact"
+                        android:id="@+id/textOwner"
                         android:textColor="#050505"
                         android:textStyle="bold"
                         android:layout_marginTop="30dp"
@@ -212,7 +201,7 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp" >
+                        android:layout_marginBottom="20dp">
 
                         <TextView
                             android:layout_width="200dp"
@@ -263,6 +252,6 @@
 
             </RelativeLayout>
         </ScrollView>
-
     </LinearLayout>
+
 </RelativeLayout>

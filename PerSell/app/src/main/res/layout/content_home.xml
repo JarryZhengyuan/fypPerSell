@@ -4,19 +4,168 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.jarry.persell.HomeActivity"
-    tools:showIn="@layout/app_bar_home">
+    tools:showIn="@layout/app_bar_home"
+    android:orientation="vertical">
 
-    <ListView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/itemHomeList"
-        android:layout_alignParentTop="true"
+        android:id="@+id/scrollView4"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:id="@+id/linearLayout3">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/homeImage"
+                    android:contentDescription="homeImage"
+                    android:src="@drawable/ad" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="142dp"
+                    android:layout_height="142dp"
+                    android:id="@+id/sellBtn"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/view"
+                    android:layout_toStartOf="@+id/view"
+                    android:src="@drawable/sell_home" />
+
+                <View
+                    android:layout_height="100dp"
+                    android:layout_width="2dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="5dp" />
+
+                <ImageView
+                    android:layout_width="116dp"
+                    android:layout_height="116dp"
+                    android:id="@+id/findItem"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/view"
+                    android:layout_toEndOf="@+id/view"
+                    android:src="@drawable/search_home" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+                <View
+                    android:layout_height="2dp"
+                    android:layout_width="50dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="OUR POPULAR SALES"
+                    android:id="@+id/textView9"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="5dp"
+                    android:textColor="#050505"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_height="2dp"
+                    android:layout_width="50dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="180dp"
+                        android:id="@+id/electronicBtn"
+                        android:src="@drawable/electronic"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Electronic"
+                        android:id="@+id/textView11"
+                        android:textStyle="bold"
+                        android:textColor="#080707"
+                        android:layout_marginLeft="61dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="61dp"
+                        android:layout_marginTop="33dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="180dp"
+                        android:id="@+id/sportBtn"
+                        android:src="@drawable/sport" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="SPORTs"
+                        android:id="@+id/textView10"
+                        android:textStyle="bold"
+                        android:textColor="#0c0b0b"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="36dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

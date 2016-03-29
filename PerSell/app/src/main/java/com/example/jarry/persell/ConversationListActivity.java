@@ -43,8 +43,6 @@ public class ConversationListActivity extends AppCompatActivity {
         callbackManager=CallbackManager.Factory.create();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Conversations");
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {

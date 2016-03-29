@@ -63,8 +63,6 @@ public class itemListActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Your Items");
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
