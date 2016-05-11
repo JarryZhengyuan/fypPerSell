@@ -4,11 +4,22 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.facebook.login.widget.ProfilePictureView
-        android:id="@+id/imageUser"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="5dp" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/imageUser"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageView5"
+            android:src="@drawable/substract_cir_white" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"

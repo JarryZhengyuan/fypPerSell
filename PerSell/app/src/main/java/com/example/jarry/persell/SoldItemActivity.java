@@ -48,9 +48,9 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
     private AccessTokenTracker accessTokenTracker;
     private AccessToken accessToken;
     private TextView tvPrice,tvCategory,tvLocation,tvAd,tvOwner,tvShipping;
-    private Button faceBtn;
-    private ImageView pic1,pic2,pic3,imgReceipt;
+    private ImageView pic1,pic2,pic3,imgReceipt,faceBtn;
     private String userid,ownerid;
+    private Button receiptBtn;
     ActionBar actionBar;
     ProfilePictureView profilePictureView;
     private int item_id=-1;
@@ -60,6 +60,7 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
     List<State> state_type=new ArrayList<State>(EnumSet.allOf(State.class));
     PurchaseRequest purchaseRequest;
     DateToString dateToString;
+    Bitmap bitReceipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +92,14 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
         pic3=(ImageView)findViewById(R.id.img3);
         imgReceipt=(ImageView)findViewById(R.id.imgReceipt);
         profilePictureView=(ProfilePictureView)findViewById(R.id.imageUser);
-        faceBtn=(Button)findViewById(R.id.faceBtn);
+        faceBtn=(ImageView)findViewById(R.id.faceBtn);
+        receiptBtn=(Button)findViewById(R.id.receiptBtn);
 
         pic1.setOnClickListener(this);
         pic2.setOnClickListener(this);
         pic3.setOnClickListener(this);
         faceBtn.setOnClickListener(this);
+        receiptBtn.setOnClickListener(this);
 
         getItemData(item_id);
         getReceipt(item_id);
@@ -119,12 +122,12 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
                         state_type.get(invoice.getAdd().getStateID()).toString()+"\n";
 
                 tvShipping.setText(address);
-
                     Bitmap bitmap=null;
                     purchaseRequest.downloadPictureData(bitmap, invoice.getPicname(), new GetPictureCallBack() {
                         @Override
                         public void done(Bitmap bitmap) {
-                             imgReceipt.setImageBitmap(bitmap);
+                            bitReceipt=bitmap;
+                           // imgReceipt.setImageBitmap(bitmap);
                         }
                     });
                 }
@@ -236,6 +239,7 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
                 Uri uriUrl = Uri.parse(String.valueOf(faceLink));
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
+                finish();
             }
         });
     }
@@ -254,7 +258,22 @@ public class SoldItemActivity extends AppCompatActivity implements View.OnClickL
             case R.id.img2:
             case R.id.img3:createDialog();
                 break;
+            case R.id.receiptBtn:createReceiptView();
+                break;
         }
+    }
+
+    private void createReceiptView() {
+        Dialog dialog;
+        dialog = new Dialog(SoldItemActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.receipt_view);
+        dialog.setCancelable(true);
+
+        ImageView imgViewReceipt=(ImageView)dialog.findViewById(R.id.receiptImage);
+        imgViewReceipt.setImageBitmap(bitReceipt);
+
+        dialog.show();
     }
 
     @Override

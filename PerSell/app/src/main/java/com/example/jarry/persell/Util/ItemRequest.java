@@ -781,4 +781,150 @@ public class ItemRequest {
         }
     }
 
+    public void fetchSearchingItemsDataInBackground(Item item,GetAllItemCallBack callBack){
+        progressDialog.show();
+        new fetchSearchingItemsDataAsyncTask(callBack,item).execute();
+    }
+
+    public class fetchSearchingItemsDataAsyncTask extends AsyncTask<Void,Void,ArrayList<Item>>{
+
+        Item item;
+        ArrayList<Item> items=new ArrayList<>();
+        GetAllItemCallBack callBack;
+        String myJSON;
+        JSONArray peoples = null;
+
+        public fetchSearchingItemsDataAsyncTask(GetAllItemCallBack callBack, Item item) {
+            this.callBack = callBack;
+            this.item=item;
+        }
+
+        @Override
+        protected ArrayList<Item> doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend=new ArrayList<>();
+            dataToSend.add(new BasicNameValuePair("search", item.getItemTitle()));
+
+            HttpParams httpParams=new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, ServerRequest.CONNECTION_TIME_LARGE);
+            HttpConnectionParams.setSoTimeout(httpParams, ServerRequest.CONNECTION_TIME_LARGE);
+
+            HttpClient client = new DefaultHttpClient(httpParams);
+            HttpPost post = new HttpPost(ServerRequest.SERVER_ADDRESS+"search.php");
+
+            InputStream inputStream = null;
+            String result = null;
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse httpResponse=client.execute(post);
+
+                HttpEntity entity=httpResponse.getEntity();
+
+                inputStream = entity.getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                {
+                    sb.append(line + "\n");
+                }
+                result = sb.toString();
+            } catch (Exception e) {
+                // Oops
+            }
+            finally {
+                try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
+            }
+            myJSON=result;
+            return showlist(myJSON);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Item> items) {
+            progressDialog.dismiss();
+            callBack.done(items);
+            super.onPostExecute(items);
+        }
+
+        protected ArrayList<Item> showlist(String myJSON)  {
+            JSONObject jsonObj = null;
+            try {
+                jsonObj = new JSONObject(myJSON);
+                peoples = jsonObj.getJSONArray("result");
+
+                for(int i=0;i<peoples.length();i++){
+                    JSONObject c = peoples.getJSONObject(i);
+
+                    int itemID=c.getInt("itemID");
+                    int categoryID=c.getInt("categoryID");
+                    double itemPrice=c.getDouble("itemPrice");
+                    String pic1=c.getString("pic1");
+                    String pic2=c.getString("pic2");
+                    String pic3=c.getString("pic3");
+                    String itemDes=c.getString("itemDes");
+                    int statusID=c.getInt("statusID");
+                    String userid=c.getString("UserID");
+                    String date=c.getString("date");
+                    int stateID=c.getInt("stateID");
+                    String itemTitle=c.getString("itemTitle");
+                    String username=c.getString("UserName");
+
+                    items.add(new Item(username,itemTitle,itemDes,itemID,itemPrice,pic1,pic2,pic3,stateID,statusID,userid,date,categoryID));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return items;
+        }
+    }
+
+    public void cancelBookedDataInBackground(Item item,GetItemCallBack callBack){
+        progressDialog.show();
+        new CancelBookedDataAsyncTask(callBack,item).execute();
+    }
+
+    public class CancelBookedDataAsyncTask extends AsyncTask<Void,Void,Void> {
+
+        Item item;
+        GetItemCallBack callBack;
+
+        public CancelBookedDataAsyncTask(GetItemCallBack callBack, Item item) {
+            this.callBack = callBack;
+            this.item = item;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend=new ArrayList<>();
+            dataToSend.add(new BasicNameValuePair("id",item.getItemID()+""));
+
+            HttpParams httpParams=new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, ServerRequest.CONNECTION_TIME_LARGE);
+            HttpConnectionParams.setSoTimeout(httpParams,ServerRequest.CONNECTION_TIME_LARGE);
+
+            HttpClient client=new DefaultHttpClient(httpParams);
+            HttpPost post=new HttpPost(ServerRequest.SERVER_ADDRESS+"cancelBooked.php");
+
+            try{
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                client.execute(post);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            progressDialog.dismiss();
+            callBack.done(null);
+
+            super.onPostExecute(aVoid);
+        }
+    }
+
 }

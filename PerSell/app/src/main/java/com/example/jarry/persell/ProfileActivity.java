@@ -5,9 +5,12 @@ import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.example.jarry.persell.Entity.BankAcc;
 import com.example.jarry.persell.Entity.User;
 import com.example.jarry.persell.CallBack.GetUserCallBack;
 import com.example.jarry.persell.Enum.Bank;
+import com.example.jarry.persell.Enum.ItemStatus;
 import com.example.jarry.persell.Enum.State;
 import com.example.jarry.persell.Util.UserRequest;
 import com.facebook.AccessToken;
@@ -45,13 +49,15 @@ public class ProfileActivity extends AppCompatActivity {
     private AccessToken accessToken;
     List<State> type=new ArrayList<State>(EnumSet.allOf(State.class));
     List<Bank> banktype=new ArrayList<Bank>(EnumSet.allOf(Bank.class));
-    private Button logoutBtn,btnLink,editBtn;
-    private TextView tvEmail,tvName,tvAddress,tvBank;
+    private Button editBtn;
+    private TextView tvEmail,tvName,tvAddress,tvBank,tvAgeGender;
     ProfilePictureView profilePictureView;
     User user;
     Address address;
     BankAcc bankAcc;
-    public String userName,userLink,userEmail,userBirthday,userid,userGender,userLocation;
+    ImageView faceBtn;
+    TabHost host;
+    public String userName,userLink,userEmail,userBirthday,userid,userGender,userLocation,userAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +70,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         callbackManager=CallbackManager.Factory.create();
         tvName=(TextView)findViewById(R.id.tvName);
+        tvAgeGender=(TextView)findViewById(R.id.tvAgeGender);
         tvEmail=(TextView)findViewById(R.id.tvEmailPhone);
         tvAddress=(TextView)findViewById(R.id.etAddress);
         tvBank=(TextView)findViewById(R.id.tvBank);
         profilePictureView=(ProfilePictureView)findViewById(R.id.imageUser);
-        btnLink=(Button)findViewById(R.id.btnLink);
         editBtn=(Button)findViewById(R.id.editBtn);
+        faceBtn=(ImageView)findViewById(R.id.faceLink);
+        host=(TabHost)findViewById(R.id.tabHost);
+        host.setup();
+        setUpTab();
 
         accessToken = AccessToken.getCurrentAccessToken();
         userid=accessToken.getUserId();
@@ -81,7 +91,6 @@ public class ProfileActivity extends AppCompatActivity {
         address.setStateID(-1);
         bankAcc=new BankAcc();
         bankAcc.setUserID(userid);
-
 
         GraphRequest request = GraphRequest.newMeRequest(
                 accessToken,
@@ -103,7 +112,15 @@ public class ProfileActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
+                        String ageGender="";
                         tvName.setText(userName);
+                        if(userBirthday!=null){
+                            ageGender=userBirthday+"\n";
+                        }
+                        if(userGender!=null){
+                            ageGender=ageGender+userGender;
+                        }
+                        tvAgeGender.setText(ageGender);
 
                         profilePictureView.setProfileId(userid);
                     }
@@ -123,6 +140,26 @@ public class ProfileActivity extends AppCompatActivity {
         editProfile();
     }
 
+    private void setUpTab() {
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Contact");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("",getResources().getDrawable(R.drawable.profile_contact));
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Address");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("",getResources().getDrawable(R.drawable.profile_add));
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("Bank");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("",getResources().getDrawable(R.drawable.profile_bank));
+        host.addTab(spec);
+    }
+
     private void displayDetail() {
         UserRequest userRequest=new UserRequest(this);
         userRequest.fetchUserDataInBackground(user, new GetUserCallBack() {
@@ -132,13 +169,13 @@ public class ProfileActivity extends AppCompatActivity {
                 if(returnedUser.getEmail().length()>5){
                     textEmail=returnedUser.getEmail();
                 }else{
-                    textEmail="Didn't have Email";
+                    textEmail="Please update your Email";
                 }
 
                 if(returnedUser.getPhone().length()>5){
                     textEmail=textEmail+"\n"+returnedUser.getPhone();
                 }else{
-                    textEmail=textEmail+"\n"+"Didn't have Contact";
+                    textEmail=textEmail+"\n"+"Please update your Contact";
                 }
                 tvEmail.setText(textEmail);
             }
@@ -147,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity {
         userRequest.fetchAddressDataInBackground(address, new GetAddressCallBack() {
             @Override
             public void done(Address address) {
-                String state = "Didn't have Address";
+                String state = "Please update your Shipping Address";
                 int stateId = address.getStateID();
                 if(stateId!=-1){
                 state = type.get(stateId).toString();
@@ -176,8 +213,8 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
                 if (bankList.length() < 8) {
-                    tvBank.setText("Didn't have Bank Account");
-                }else {
+                    tvBank.setText("Please update your Bank Account");
+                } else {
                     tvBank.setText(bankList);
                 }
             }
@@ -189,6 +226,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, UpdateUserProfileActivity.class));
+                finish();
             }
         });
     }
@@ -196,25 +234,15 @@ public class ProfileActivity extends AppCompatActivity {
     private void facebookLink(String userid) throws MalformedURLException {
         final URL faceLink = new URL("https://m.facebook.com/app_scoped_user_id/" + userid);
 
-        btnLink.setOnClickListener(new View.OnClickListener() {
+        faceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri uriUrl = Uri.parse(String.valueOf(faceLink));
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
+                finish();
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id==android.R.id.home){
-            startActivity(new Intent(ProfileActivity.this,HomeActivity.class));
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void messsageToast(String message){
@@ -229,4 +257,20 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit) {
+            startActivity(new Intent(ProfileActivity.this, UpdateUserProfileActivity.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

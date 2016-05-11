@@ -57,7 +57,7 @@
         android:layout_centerHorizontal="true"
         android:textStyle="bold|italic"
         android:textColor="#6a7cdf"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -88,15 +88,5 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="@string/PhoneNumber" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Done"
-        android:id="@+id/btnDone"
-        android:layout_below="@+id/etPhone"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

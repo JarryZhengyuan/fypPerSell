@@ -64,7 +64,9 @@
         <activity android:name=".PurchaseActivity" />
         <activity android:name=".PurchaseListActivity" />
         <activity android:name=".SoldItemActivity" />
-        <activity android:name=".BookedItemActivity"></activity>
+        <activity android:name=".BookedItemActivity" />
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".SearchingActivity"></activity>
     </application>
 
 </manifest>

@@ -102,7 +102,7 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         ImageView img=(ImageView)rowView.findViewById(R.id.img);
 
         img.setImageBitmap(decodedByte);
-        tvPrice.setText(title+" RM " + String.format("%.2f", price));
+        tvPrice.setText(title+"\n RM " + String.format("%.2f", price));
         tvCategory.setText(categoryType);
         tvDate.setText(dateToString.string2Date(date));
         tvState.setText(name+"\n"+stateT);

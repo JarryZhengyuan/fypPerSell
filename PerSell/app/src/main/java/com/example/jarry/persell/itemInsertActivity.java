@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -47,7 +48,7 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
     private AccessToken accessToken;
     private EditText etAd,etItem,etItemTitle;
     private TextView text;
-    private Button categorySelectedBtn,doneBtn,editBtn,regionBtn;
+    private Button categorySelectedBtn,regionBtn;
     private ImageView pic1,pic2,pic3;
     String[] values;
     List<Category> type=new ArrayList<Category>(EnumSet.allOf(Category.class));
@@ -73,8 +74,6 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_item_insert);
 
         item_process=getIntent().getExtras().getString("item_process");
-        doneBtn=(Button)findViewById(R.id.doneBtn);
-        editBtn=(Button)findViewById(R.id.editBtn);
         regionBtn=(Button)findViewById(R.id.regionBtn);
         checkItemProcess(item_process);
 
@@ -99,12 +98,20 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
         pic3=(ImageView)findViewById(R.id.pic3);
 
         categorySelectedBtn.setOnClickListener(this);
-        doneBtn.setOnClickListener(this);
-        editBtn.setOnClickListener(this);
         regionBtn.setOnClickListener(this);
         pic1.setOnClickListener(this);
         pic2.setOnClickListener(this);
         pic3.setOnClickListener(this);
+
+        statevalues=new String[statetype.size()-1];
+        for(int i=0;i<statetype.size()-1;i++){
+            statevalues[i]=statetype.get(i).toString();
+        }
+
+        values=new String[type.size()-1];
+        for(int i=0;i<type.size()-1;i++){
+            values[i]=type.get(i).toString();
+        }
 
         if(item_id!=-1)
         inputEditText(item_id);
@@ -160,12 +167,8 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
 
     private void checkItemProcess(String item_process) {
         if(item_process.equals(ADD_ITEM)){
-           editBtn.setVisibility(Button.INVISIBLE);
-            doneBtn.setVisibility(Button.VISIBLE);
             actionTitle="Sell Item";
         }else if(item_process.equals(EDIT_ITEM)){
-           editBtn.setVisibility(Button.VISIBLE);
-           doneBtn.setVisibility(Button.INVISIBLE);
             actionTitle="Edit Item";
             item_id=getIntent().getExtras().getInt("item_id");
         }
@@ -175,10 +178,6 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.categorySelectedBtn: selectCategory();
-                break;
-            case R.id.doneBtn: insertItemData();
-                break;
-            case R.id.editBtn: updateItemData();
                 break;
             case R.id.regionBtn: selectRegions();
                 break;
@@ -216,7 +215,7 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
         itemRequest.storeItemDataInBackground(item, new GetItemCallBack() {
             @Override
             public void done(Item item) {
-                messsageToast("Item is started to sell");
+                messsageToast("Item is began to sell");
                startActivity(new Intent(itemInsertActivity.this, itemListActivity.class));
                finish();
             }
@@ -246,10 +245,6 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void selectCategory() {
-        values=new String[type.size()-1];
-        for(int i=0;i<type.size()-1;i++){
-            values[i]=type.get(i).toString();
-        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,values);
@@ -269,11 +264,6 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void selectRegions() {
-        statevalues=new String[statetype.size()-1];
-        for(int i=0;i<statetype.size()-1;i++){
-            statevalues[i]=statetype.get(i).toString();
-        }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,statevalues);
 
@@ -294,20 +284,20 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
     public Boolean checkBlank(){
         if(etItemTitle.getText().toString().length()<3){
             etItemTitle.requestFocus();
-            etItemTitle.setError("Please insert Ad title");
+            etItemTitle.setError("Please name Ad title");
             return false;}
         if(etItem.getText().toString().length()<1){
             etItem.requestFocus();
-            etItem.setError("Please insert Price");
+            etItem.setError("Please mention item price");
             return false;}
         if(etAd.getText().toString().length()<3){
             etAd.requestFocus();
-            etAd.setError("Please insert description");
+            etAd.setError("Please describe your item");
             return false;}
         if(text.getText().toString().length()>3){
             text.requestFocus();
             text.setError("");
-            messsageToast("Please choose photo");
+            messsageToast("Please add your item's photo");
             return false;}
         if(categorySelectedBtn.getText().toString().equals("No Category Selected")){
             categorySelectedBtn.requestFocus();
@@ -387,6 +377,25 @@ public class itemInsertActivity extends AppCompatActivity implements View.OnClic
         ByteArrayOutputStream os=new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.PNG, 100, os);
         return os.toByteArray();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.updateprofile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id==R.id.action_save){
+            if(actionTitle.equals("Sell Item")){
+            insertItemData();}
+            else if(actionTitle.equals("Edit Item")){
+            updateItemData();}
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void messsageToast(String message){

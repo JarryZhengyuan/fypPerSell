@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -34,7 +35,7 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
     private AccessTokenTracker accessTokenTracker;
     private AccessToken accessToken;
     String userid;
-    private Button emailBtn,addressBtn,doneBtn,bankBtn,btnSelectState;
+    private Button emailBtn,addressBtn,bankBtn,btnSelectState;
     private EditText etPoskod,etCity,etAddress;
     String[] values;
     List<State> type=new ArrayList<State>(EnumSet.allOf(State.class));
@@ -68,12 +69,14 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
         bankBtn.setOnClickListener(this);
         btnSelectState=(Button)findViewById(R.id.btnSelectState);
         btnSelectState.setOnClickListener(this);
-        doneBtn=(Button)findViewById(R.id.btnDone);
-        doneBtn.setOnClickListener(this);
         etAddress=(EditText)findViewById(R.id.etAddress);
         etCity=(EditText)findViewById(R.id.etCity);
         etPoskod=(EditText)findViewById(R.id.etPoskod);
 
+        values=new String[type.size()-1];
+        for(int i=0;i<type.size()-1;i++){
+            values[i]=type.get(i).toString();
+        }
         inputEditText();
     }
 
@@ -89,7 +92,8 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
                 etAddress.setText(address.getAddress());
                 etPoskod.setText(address.getPoskod());
                 etCity.setText(address.getCity());
-                btnSelectState.setText(type.get(address.getStateID()).toString());}
+                btnSelectState.setText(type.get(address.getStateID()).toString());
+                }
             }
         });
     }
@@ -101,7 +105,7 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.emailBtn:startActivity(new Intent(UpdateUserAddressActivity.this,UpdateUserProfileActivity.class));
+            case R.id.emailBtn:startActivity(new Intent(UpdateUserAddressActivity.this, UpdateUserProfileActivity.class));
                 finish();
                 break;
             case R.id.adressBtn:startActivity(new Intent(UpdateUserAddressActivity.this, UpdateUserAddressActivity.class));
@@ -110,18 +114,12 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
             case R.id.bankBtn:startActivity(new Intent(UpdateUserAddressActivity.this, UpdateUserBankActivity.class));
                 finish();
                 break;
-            case R.id.btnDone:updateAddress();
-                break;
             case R.id.btnSelectState:selectRegions();
                 break;
         }
     }
 
     private void selectRegions() {
-        values=new String[type.size()-1];
-        for(int i=0;i<type.size()-1;i++){
-            values[i]=type.get(i).toString();
-        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,values);
@@ -155,11 +153,7 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
             userRequest.updateUserAddressDataInBackground(address, new GetUserCallBack() {
             @Override
             public void done(User returnedUser) {
-                messsageToast("success");
-                etCity.setText("");
-                etPoskod.setText("");
-                etAddress.setText("");
-                btnSelectState.setText("Region");
+                messsageToast("updated success");
             }
         });}
     }
@@ -167,15 +161,15 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
     public Boolean checkBlankEditText(){
         if(etAddress.getText().toString().length()<10){
             etAddress.requestFocus();
-            etAddress.setError("Please insert Address");
+            etAddress.setError("Please insert Address correctly");
             return false;}
-        if(etPoskod.getText().toString().length()<3){
+        if(etPoskod.getText().toString().length()<4){
             etPoskod.requestFocus();
-            etPoskod.setError("Please insert Poskod");
+            etPoskod.setError("Minimum 5 digits");
             return false;}
         if(etCity.getText().toString().length()<3){
             etCity.requestFocus();
-            etCity.setError("Please insert City");
+            etCity.setError("Please insert your City");
             return false;}
         if(btnSelectState.getText().toString().equals("No Region Selected")){
             btnSelectState.requestFocus();
@@ -184,6 +178,13 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
 
         return true;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.updateprofile, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -191,6 +192,9 @@ public class UpdateUserAddressActivity extends AppCompatActivity implements View
         if(id==android.R.id.home){
             startActivity(new Intent(UpdateUserAddressActivity.this,ProfileActivity.class));
             finish();
+        }
+        if(id==R.id.action_save){
+            updateAddress();
         }
         return super.onOptionsItemSelected(item);
     }

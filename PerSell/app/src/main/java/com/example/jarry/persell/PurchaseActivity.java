@@ -84,7 +84,8 @@ public class PurchaseActivity extends AppCompatActivity implements View.OnClickL
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
-            startActivityForResult(new Intent(PurchaseActivity.this,FaceLoginActivity.class), 0);
+            startActivity(new Intent(PurchaseActivity.this,FaceLoginActivity.class));
+            finish();
         }
         userid=accessToken.getUserId();
         item_id=getIntent().getExtras().getInt("item_id");
@@ -251,6 +252,7 @@ public class PurchaseActivity extends AppCompatActivity implements View.OnClickL
         purchaseRequest.storeInvoiceDataInBackground(invoice, new GetInvoiceCallBack() {
             @Override
             public void done(Invoice invoice) {
+                messsageToast("You have reserved this item. Please send your payment receipt");
                 linearLayout.setVisibility(View.VISIBLE);
                 displayBank();
             }

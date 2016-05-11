@@ -62,7 +62,7 @@ public class itemListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_list);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Your Items");
+        actionBar.setTitle("My Stocks");
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
@@ -129,6 +129,7 @@ public class itemListActivity extends AppCompatActivity {
                                 intent.putExtra("item_process", EDIT_ITEM);
                                 intent.putExtra("item_id", item.getItemID());
                                 startActivity(intent);
+                                finish();
                             }
                         } else if (select[i].equals("Delete")) {
                             if (checkItemStatus(item.getStatusID()) == false) {
@@ -200,6 +201,7 @@ public class itemListActivity extends AppCompatActivity {
             Intent intent=new Intent(itemListActivity.this, itemInsertActivity.class);
             intent.putExtra("item_process",ADD_ITEM);
             startActivity(intent);
+            finish();
         }
         if (id == R.id.action_available) {
             adapter.getFilter().filter(String.valueOf(ItemStatus.AVAILABLE.getIntValue()));

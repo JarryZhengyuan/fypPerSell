@@ -9,66 +9,65 @@
     tools:showIn="@layout/app_bar_home"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:id="@+id/linearLayout3">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/homeImage"
-                    android:contentDescription="homeImage"
-                    android:src="@drawable/ad" />
-            </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="#e8b7f1">
 
             <RelativeLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profileLayout"
+                android:background="#8080c0">
 
-                <ImageView
-                    android:layout_width="142dp"
-                    android:layout_height="142dp"
-                    android:id="@+id/sellBtn"
+                <com.facebook.login.widget.ProfilePictureView
+                    android:id="@+id/imageUser"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/view"
-                    android:layout_toStartOf="@+id/view"
-                    android:src="@drawable/sell_home" />
-
-                <View
-                    android:layout_height="100dp"
-                    android:layout_width="2dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/view"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_alignLeft="@+id/android"
+                    android:layout_alignStart="@+id/android"
+                    android:padding="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp" />
 
                 <ImageView
-                    android:layout_width="116dp"
-                    android:layout_height="116dp"
-                    android:id="@+id/findItem"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/android"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:src="@drawable/substract_cir"
+                    android:contentDescription="@null"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Welcome to PerSell"
+                    android:id="@+id/textView12"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/view"
-                    android:layout_toEndOf="@+id/view"
-                    android:src="@drawable/search_home" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="#fdfcfc" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/tttv"
+                    android:textColor="#fdfcfc"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:text="Have a Nice Day!" />
 
             </RelativeLayout>
 
@@ -76,96 +75,36 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-                <View
-                    android:layout_height="2dp"
-                    android:layout_width="50dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal" />
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#ffffff">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="OUR POPULAR SALES"
-                    android:id="@+id/textView9"
+                    android:text="Have a Nice Day!"
+                    android:id="@+id/tvName"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="5dp"
-                    android:textColor="#050505"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_height="2dp"
-                    android:layout_width="50dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp" />
+                    android:textColor="#31489e"
+                    android:textStyle="bold|italic" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="335dp"
+                android:id="@+id/girdViewlayout"
+                android:background="#ffffff">
 
-                <RelativeLayout
+                <GridView
                     android:layout_width="wrap_content"
-                    android:layout_height="150dp">
-
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="180dp"
-                        android:id="@+id/electronicBtn"
-                        android:src="@drawable/electronic"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Electronic"
-                        android:id="@+id/textView11"
-                        android:textStyle="bold"
-                        android:textColor="#080707"
-                        android:layout_marginLeft="61dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="61dp"
-                        android:layout_marginTop="33dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="180dp"
-                        android:id="@+id/sportBtn"
-                        android:src="@drawable/sport" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="SPORTs"
-                        android:id="@+id/textView10"
-                        android:textStyle="bold"
-                        android:textColor="#0c0b0b"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginTop="36dp" />
-                </RelativeLayout>
-            </LinearLayout>
+                    android:layout_height="335dp"
+                    android:id="@+id/gridView"
+                    android:numColumns="3" />
+            </RelativeLayout>
 
         </LinearLayout>
-    </ScrollView>
 
 </RelativeLayout>

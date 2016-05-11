@@ -81,7 +81,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:hint="@string/Poskod" />
+        android:hint=" Postcode Number" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -106,14 +106,5 @@
         android:layout_alignStart="@+id/etCity"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Done"
-        android:id="@+id/btnDone"
-        android:layout_below="@+id/btnSelectState"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp" />
 
 </RelativeLayout>

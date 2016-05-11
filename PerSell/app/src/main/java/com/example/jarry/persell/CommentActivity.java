@@ -184,7 +184,9 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         int id = item.getItemId();
 
         if(id==android.R.id.home){
-            startActivity(new Intent(CommentActivity.this, HomeActivity.class));
+            Intent intent = new Intent(CommentActivity.this, ItemOwnerActivity.class);
+            intent.putExtra("item_id", item_id);
+            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -41,7 +41,7 @@ public class PurchaseListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_purchase_list);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Your Purchases");
+        actionBar.setTitle("Purchased History");
 
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
@@ -98,10 +98,12 @@ public class PurchaseListActivity extends AppCompatActivity {
                     Intent intent = new Intent(PurchaseListActivity.this, ItemOwnerActivity.class);
                     intent.putExtra("item_id", item.getItemID());
                     startActivity(intent);
+                    finish();
                 } else if (item.getStatusID() == ItemStatus.SOLD.getIntValue()) {
                     Intent intent = new Intent(PurchaseListActivity.this,SoldItemActivity.class);
                     intent.putExtra("item_id", item.getItemID());
                     startActivity(intent);
+                    finish();
                 }
             }
         });

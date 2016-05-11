@@ -10,7 +10,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -61,15 +61,28 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
                         android:textSize="14sp"
-                        android:text="Hello, how are you?" />
+                        android:text="Hello, how are you?"
+                        android:maxWidth="200dp" />
 
                 </RelativeLayout>
 
-                <com.facebook.login.widget.ProfilePictureView
-                    android:id="@+id/imageUser"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="5dp" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.facebook.login.widget.ProfilePictureView
+                        android:id="@+id/imageUser"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="5dp" />
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/imageView3"
+                        android:src="@drawable/substract_cir_white" />
+                </RelativeLayout>
+
             </LinearLayout>
 
         </LinearLayout>

@@ -55,8 +55,8 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     private AccessTokenTracker accessTokenTracker;
     private AccessToken accessToken;
     private TextView tvPrice,tvCategory,tvLocation,tvAd,tvOwner,tvShipping;
-    private Button editBtn,faceBtn;
-    private ImageView pic1,pic2,pic3,imgReceipt;
+    private Button editBtn,receiptView;
+    private ImageView pic1,pic2,pic3,faceBtn;
     private String userid,ownerid="";
     ActionBar actionBar;
     String EDIT_ITEM="edit_item";
@@ -70,6 +70,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     DateToString dateToString;
     PurchaseRequest purchaseRequest;
     UserRequest userRequest;
+    Bitmap bitReceipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +101,17 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         pic3=(ImageView)findViewById(R.id.img3);
         tvShipping=(TextView)findViewById(R.id.tvShipping);
         tvOwner=(TextView)findViewById(R.id.tvOwner);
-        imgReceipt=(ImageView)findViewById(R.id.imgReceipt);
+        receiptView=(Button)findViewById(R.id.receiptView);
         profilePictureView=(ProfilePictureView)findViewById(R.id.imageUser);
 
-        faceBtn=(Button)findViewById(R.id.faceBtn);
+        faceBtn=(ImageView)findViewById(R.id.faceBtn);
         editBtn=(Button)findViewById(R.id.editBtn);
         editBtn.setOnClickListener(this);
         pic1.setOnClickListener(this);
         pic2.setOnClickListener(this);
         pic3.setOnClickListener(this);
         faceBtn.setOnClickListener(this);
+        receiptView.setOnClickListener(this);
 
         getItemData(item_id);
     }
@@ -196,18 +198,18 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         purchaseRequest.fetchInvoiceDataInBackground(invoice, new GetInvoiceCallBack() {
             @Override
             public void done(Invoice invoice) {
-                if(invoice!=null){
-                    String address="\nPurchased on "+dateToString.string2Date(invoice.getDate())+"\n\n"+"Shipping Address"+
-                            invoice.getAdd().getAddress()+"\n"+
-                            invoice.getAdd().getPoskod()+"   "+
-                            invoice.getAdd().getCity()+"\n"+
-                            state_type.get(invoice.getAdd().getStateID()).toString()+"\n";
+                if (invoice != null) {
+                    String address = "\nPurchased on " + dateToString.string2Date(invoice.getDate()) + "\n\n" + "Shipping Address" +
+                            invoice.getAdd().getAddress() + "\n" +
+                            invoice.getAdd().getPoskod() + "   " +
+                            invoice.getAdd().getCity() + "\n" +
+                            state_type.get(invoice.getAdd().getStateID()).toString() + "\n";
 
-                    ownerid=invoice.getUserID();
+                    ownerid = invoice.getUserID();
                     tvShipping.setText(address);
                     profilePictureView.setProfileId(ownerid);
 
-                    User user=new User();
+                    User user = new User();
                     user.setUserID(ownerid);
                     userRequest.fetchUserDataInBackground(user, new GetUserCallBack() {
                         @Override
@@ -217,15 +219,15 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
 
-                    Bitmap bitmap=null;
+                    Bitmap bitmap = null;
                     purchaseRequest.downloadPictureData(bitmap, invoice.getPicname(), new GetPictureCallBack() {
                         @Override
                         public void done(Bitmap bitmap) {
-                            imgReceipt.setImageBitmap(bitmap);
+                            bitReceipt=bitmap;
+                           // imgReceipt.setImageBitmap(bitmap);
                         }
                     });
-                }
-                else{
+                } else {
                     messsageToast("null");
                 }
             }
@@ -258,6 +260,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("item_process", EDIT_ITEM);
                 intent.putExtra("item_id", item_id);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.img1:
             case R.id.img2:
@@ -270,7 +273,22 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 break;
+            case R.id.receiptView:createReceiptView();
+                break;
         }
+    }
+
+    private void createReceiptView() {
+        Dialog dialog;
+        dialog = new Dialog(ItemActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.receipt_view);
+        dialog.setCancelable(true);
+
+        ImageView imgViewReceipt=(ImageView)dialog.findViewById(R.id.receiptImage);
+        imgViewReceipt.setImageBitmap(bitReceipt);
+
+        dialog.show();
     }
 
     private void facebookLink(String userid) throws MalformedURLException {
@@ -282,6 +300,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 Uri uriUrl = Uri.parse(String.valueOf(faceLink));
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
+                finish();
             }
         });
     }
@@ -291,6 +310,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         if(id==android.R.id.home){
             startActivity(new Intent(ItemActivity.this, itemListActivity.class));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -95,6 +95,7 @@ public class ConversationListActivity extends AppCompatActivity {
                 intent.putExtra("ownerid", roomChat.getOwnerID());
                 intent.putExtra("ownerName", roomChat.getSenderID());
                  startActivity(intent);
+                finish();
             }
         });
     }

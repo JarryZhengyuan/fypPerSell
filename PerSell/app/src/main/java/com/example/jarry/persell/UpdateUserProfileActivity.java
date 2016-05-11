@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,7 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
     private AccessToken accessToken;
     String userid;
     User user;
-    private Button emailBtn,addressBtn,doneBtn,bankBtn;
+    private Button emailBtn,addressBtn,bankBtn;
     private EditText etEmail,etPhone;
 
     @Override
@@ -54,8 +55,6 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
         addressBtn.setOnClickListener(this);
         bankBtn=(Button)findViewById(R.id.bankBtn);
         bankBtn.setOnClickListener(this);
-        doneBtn=(Button)findViewById(R.id.btnDone);
-        doneBtn.setOnClickListener(this);
         etEmail=(EditText)findViewById(R.id.etEmail);
         etPhone=(EditText)findViewById(R.id.etPhone);
 
@@ -70,9 +69,10 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
         userRequest.fetchUserDataInBackground(user, new GetUserCallBack() {
             @Override
             public void done(User returnedUser) {
-                if(returnedUser!=null){
-                etEmail.setText(returnedUser.getEmail());
-                etPhone.setText(returnedUser.getPhone());}
+                if(returnedUser.getEmail().length()>5){
+                etEmail.setText(returnedUser.getEmail()); }
+                if(returnedUser.getPhone().length()>5){
+                    etPhone.setText(returnedUser.getPhone());}
             }
         });
     }
@@ -85,16 +85,16 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.emailBtn:
-                startActivity(new Intent(UpdateUserProfileActivity.this,UpdateUserProfileActivity.class));
+                startActivity(new Intent(UpdateUserProfileActivity.this, UpdateUserProfileActivity.class));
                 finish();
                 break;
-            case R.id.adressBtn:startActivity(new Intent(UpdateUserProfileActivity.this,UpdateUserAddressActivity.class));
+            case R.id.adressBtn:
+                startActivity(new Intent(UpdateUserProfileActivity.this, UpdateUserAddressActivity.class));
                 finish();
                 break;
-            case R.id.bankBtn:startActivity(new Intent(UpdateUserProfileActivity.this, UpdateUserBankActivity.class));
+            case R.id.bankBtn:
+                startActivity(new Intent(UpdateUserProfileActivity.this, UpdateUserBankActivity.class));
                 finish();
-                break;
-            case R.id.btnDone:updateContact();
                 break;
         }
     }
@@ -109,9 +109,7 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
         userRequest.updateUserDataInBackground(user, new GetUserCallBack() {
             @Override
             public void done(User returnedUser) {
-                messsageToast("success");
-                etEmail.setText("");
-                etPhone.setText("");
+                messsageToast("updated success");
             }
         });}
     }
@@ -119,12 +117,18 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
     public Boolean checkBlankEditText(){
         if(etEmail.getText().toString().length()<5){
             etEmail.requestFocus();
-            etEmail.setError("Please insert Email");
+            etEmail.setError("Please insert Email correctly");
             return false;}
         if(etPhone.getText().toString().length()<5){
             etPhone.requestFocus();
-            etPhone.setError("Please insert Phone Number");
+            etPhone.setError("Minimum 10 digits");
             return false;}
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.updateprofile, menu);
         return true;
     }
 
@@ -135,6 +139,10 @@ public class UpdateUserProfileActivity extends AppCompatActivity implements View
         if(id==android.R.id.home){
             startActivity(new Intent(UpdateUserProfileActivity.this,ProfileActivity.class));
             finish();
+        }
+
+        if(id==R.id.action_save){
+            updateContact();
         }
         return super.onOptionsItemSelected(item);
     }

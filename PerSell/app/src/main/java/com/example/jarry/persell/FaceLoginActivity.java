@@ -1,5 +1,8 @@
 package com.example.jarry.persell;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.jarry.persell.Util.ConnectionDetector;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -28,6 +32,8 @@ public class FaceLoginActivity extends AppCompatActivity {
     private AccessToken accessToken;
     public AccessToken token;
     public Profile profile;
+    ConnectionDetector cd;
+    Boolean isInternetPresent;
 
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
@@ -58,10 +64,20 @@ public class FaceLoginActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        accessToken = AccessToken.getCurrentAccessToken();
-        if (accessToken != null) {
-            startActivity(new Intent(FaceLoginActivity.this,LoginSinchActivity.class));
-            finish();
+        cd = new ConnectionDetector(getApplicationContext());
+        isInternetPresent = cd.isConnectingToInternet();
+
+        isInternetPresent = cd.isConnectingToInternet();
+
+        if (isInternetPresent) {
+            accessToken = AccessToken.getCurrentAccessToken();
+            if (accessToken != null) {
+                startActivity(new Intent(FaceLoginActivity.this,LoginSinchActivity.class));
+                finish();
+            }
+        } else {
+            showAlertDialog(FaceLoginActivity.this, "No Internet Connection",
+                    "You don't have internet connection.", false);
         }
 
         callbackManager = CallbackManager.Factory.create();
@@ -76,6 +92,18 @@ public class FaceLoginActivity extends AppCompatActivity {
         if (resultCode == 0) {
             this.finish();
         }
+    }
+
+    public void showAlertDialog(Context context, String title, String message, Boolean status) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setIcon((status) ? R.drawable.success : R.drawable.fail);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertDialog.show();
     }
 
     @Override

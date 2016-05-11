@@ -7,30 +7,21 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.jarry.persell.Adapter.ItemAdapter;
 import com.example.jarry.persell.Adapter.SearchAdapter;
 import com.example.jarry.persell.CallBack.GetAllItemCallBack;
-import com.example.jarry.persell.CallBack.GetCommentCallBack;
-import com.example.jarry.persell.Entity.Address;
-import com.example.jarry.persell.Entity.Comment;
 import com.example.jarry.persell.Entity.Item;
-import com.example.jarry.persell.Entity.User;
 import com.example.jarry.persell.Enum.Category;
 import com.example.jarry.persell.Enum.State;
 import com.example.jarry.persell.Util.ItemRequest;
-import com.example.jarry.persell.Util.UserRequest;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -157,6 +148,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         itemRequest.fetchSearchedItemsDataInBackground(item, new GetAllItemCallBack() {
             @Override
             public void done(ArrayList<Item> items) {
+                if(items.size()<0){
+                    Toast.makeText(getApplicationContext(),"No found",Toast.LENGTH_LONG);
+                }
                 getItemData(items);
             }
         });
@@ -186,6 +180,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(SearchActivity.this, ItemOwnerActivity.class);
                 intent.putExtra("item_id", item.getItemID());
                 startActivity(intent);
+                finish();
             }
         });
     }

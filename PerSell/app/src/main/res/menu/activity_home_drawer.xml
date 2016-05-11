@@ -7,9 +7,17 @@
             android:icon="@drawable/ic_menu_profile"
             android:title="Profile" />
         <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/home_category"
+            android:title="Categories" />
+        <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_search"
             android:title="Search" />
+        <item
+            android:id="@+id/nav_sell"
+            android:icon="@drawable/home_sell"
+            android:title="Sell Items" />
         <item
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_menu_message"
@@ -25,11 +33,11 @@
             <item
                 android:id="@+id/nav_item"
                 android:icon="@drawable/ic_menu_item"
-                android:title="Your Item" />
+                android:title="My Stocks" />
             <item
                 android:id="@+id/nav_bought"
                 android:icon="@drawable/ic_menu_bought"
-                android:title="Item Bought" />
+                android:title="Puchased History" />
         </menu>
     </item>
 

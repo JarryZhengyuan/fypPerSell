@@ -16,12 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.jarry.persell.Adapter.CustomAdapter;
 import com.example.jarry.persell.Adapter.ItemAdapter;
 import com.example.jarry.persell.CallBack.GetAllItemCallBack;
 import com.example.jarry.persell.CallBack.GetUserCallBack;
@@ -39,6 +42,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +52,7 @@ import java.util.ArrayList;
 import static com.daimajia.androidanimations.library.Techniques.*;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
@@ -56,13 +60,16 @@ public class HomeActivity extends AppCompatActivity
     User user;
     Address address;
     private String userid;
-    ItemAdapter adapter;
     Item item;
     String userName;
     int i=0;
-    ImageView sellBtn,findItem;
-    ImageView electronicBtn,sportBtn;
-
+    ProfilePictureView profilePictureView;
+    TextView tvName;
+    public static String [] prgmNameList={"Profile","Categories","Search","Sell","Message","My Stocks","Purchased \nHistory","Popular","Logout"};
+    public static int [] prgmImages={R.drawable.home_profile,R.drawable.home_category,R.drawable.home_search,R.drawable.home_sell,R.drawable.home_message,
+            R.drawable.home_items,R.drawable.home_purchase,R.drawable.home_popular,R.drawable.home_logout};
+    GridView gv;
+    CustomAdapter cusadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +106,21 @@ public class HomeActivity extends AppCompatActivity
 
         loginUser();
 
-        sellBtn=(ImageView)findViewById(R.id.sellBtn);
-        findItem=(ImageView)findViewById(R.id.findItem);
-        electronicBtn=(ImageView)findViewById(R.id.electronicBtn);
-        sportBtn=(ImageView)findViewById(R.id.sportBtn);
+        profilePictureView=(ProfilePictureView)findViewById(R.id.imageUser);
+        profilePictureView.setProfileId(userid);
+        tvName=(TextView)findViewById(R.id.tvName);
+        gv=(GridView) findViewById(R.id.gridView);
 
-        sellBtn.setOnClickListener(this);
-        findItem.setOnClickListener(this);
-        electronicBtn.setOnClickListener(this);
-        sportBtn.setOnClickListener(this);
+        cusadapter=new CustomAdapter(this, prgmNameList, prgmImages);
+        gv.setAdapter(cusadapter);
+
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                functionActivty(cusadapter.getItemName(position));
+            }
+        });
+
     }
 
     private void loginUser() {
@@ -121,6 +134,7 @@ public class HomeActivity extends AppCompatActivity
                             GraphResponse response) {
                         try {
                             userName=object.getString("name");
+                            tvName.setText(userName);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -131,7 +145,7 @@ public class HomeActivity extends AppCompatActivity
                         userRequest.storeUserDataInBackground(user, new GetUserCallBack() {
                             @Override
                             public void done(User returnedUser) {
-                                messsageToast("Login Success");
+                             //   messsageToast("Login Success");
                             }
                         });
                         userRequest.storeUserAddressDataInBackground(address, new GetUserCallBack() {
@@ -182,14 +196,19 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-
-        } else if (id == R.id.nav_search) {
-            Intent intentSearch=new Intent(HomeActivity.this, SearchActivity.class);
-            intentSearch.putExtra("category_id", -1);
+        }else if (id == R.id.nav_categories) {
+            Intent intentSearch=new Intent(HomeActivity.this, CategoryActivity.class);
             startActivity(intentSearch);
+        } else if (id == R.id.nav_search) {
+            Intent intentSearch=new Intent(HomeActivity.this, SearchingActivity.class);
+            startActivity(intentSearch);
+        }else if (id == R.id.nav_sell) {
+            Intent intent=new Intent(HomeActivity.this, itemInsertActivity.class);
+            intent.putExtra("item_process", "add_item");
+            startActivity(intent);
         } else if (id == R.id.nav_message) {
             startActivity(new Intent(HomeActivity.this, ConversationListActivity.class));
-        } else if (id == R.id.nav_logout) {
+        }else if (id == R.id.nav_logout) {
             LoginManager.getInstance().logOut();
             startActivity(new Intent(HomeActivity.this, FaceLoginActivity.class));
             finish();
@@ -204,6 +223,34 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    private void functionActivty(String itemName) {
+        if(itemName.equals(prgmNameList[0])){
+            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+        }else if(itemName.equals(prgmNameList[1])){
+            Intent intentSearch=new Intent(HomeActivity.this, CategoryActivity.class);
+            startActivity(intentSearch);
+        }else if(itemName.equals(prgmNameList[2])){
+            Intent intentSearch=new Intent(HomeActivity.this, SearchingActivity.class);
+            startActivity(intentSearch);
+        }else if(itemName.equals(prgmNameList[3])){
+            Intent intent=new Intent(HomeActivity.this, itemInsertActivity.class);
+            intent.putExtra("item_process", "add_item");
+            startActivity(intent);
+        }else if(itemName.equals(prgmNameList[4])){
+            startActivity(new Intent(HomeActivity.this, ConversationListActivity.class));
+        }else if(itemName.equals(prgmNameList[5])){
+            startActivity(new Intent(HomeActivity.this, itemListActivity.class));
+        }else if(itemName.equals(prgmNameList[6])){
+            startActivity(new Intent(HomeActivity.this, PurchaseListActivity.class));
+        }else if(itemName.equals(prgmNameList[7])){
+                messsageToast(itemName);
+        }else if(itemName.equals(prgmNameList[8])){
+            LoginManager.getInstance().logOut();
+            startActivity(new Intent(HomeActivity.this, FaceLoginActivity.class));
+            finish();
+        }
+    }
+
     public void messsageToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
@@ -213,32 +260,6 @@ public class HomeActivity extends AppCompatActivity
         callbackManager.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 0) {
             this.finish();
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.sellBtn:
-                Intent intent=new Intent(HomeActivity.this, itemInsertActivity.class);
-                intent.putExtra("item_process", "add_item");
-                startActivity(intent);
-                break;
-            case R.id.findItem:
-                Intent intentSearch=new Intent(HomeActivity.this, SearchActivity.class);
-                intentSearch.putExtra("category_id", -1);
-                startActivity(intentSearch);
-                break;
-            case R.id.electronicBtn:
-                Intent intentElec=new Intent(HomeActivity.this, SearchActivity.class);
-                intentElec.putExtra("category_id", Category.ELECTRONIC.getIntValue());
-                startActivity(intentElec);
-                break;
-            case R.id.sportBtn:
-                Intent intentSport=new Intent(HomeActivity.this, SearchActivity.class);
-                intentSport.putExtra("category_id", Category.SPORTs.getIntValue());
-                startActivity(intentSport);
-                break;
         }
     }
 }
